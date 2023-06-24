@@ -5,9 +5,12 @@ import org.springframework.stereotype.Repository;
 
 import com.example.sistemafinanceiro.api.model.Transacao;
 
+import java.util.Date;
+import java.util.List;
+
 @Repository
 public interface TransacaoRepository extends
 JpaRepository<Transacao, Long>{
-	
-	
+
+
 }

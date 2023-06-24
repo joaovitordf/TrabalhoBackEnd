@@ -1,5 +1,7 @@
 package com.example.sistemafinanceiro.api.model;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -14,6 +16,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -25,18 +28,19 @@ public class Transacao {
 	private Long id;
 	
 	private double valor;
-	
-	@CreationTimestamp
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(nullable = false)
-	private LocalDateTime data;
+	private LocalDate data;
 	
 	private int parcela;
-	
-	@CreationTimestamp
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(nullable = false)
-	private LocalDateTime data_pagamento;
-	
-	private String data_vencimento;
+	private LocalDate data_pagamento;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate data_vencimento;
 	
 	@ManyToOne
     @JoinColumn(name = "fatura_id")

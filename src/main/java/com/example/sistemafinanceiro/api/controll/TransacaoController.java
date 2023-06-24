@@ -1,11 +1,10 @@
 package com.example.sistemafinanceiro.api.controll;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,27 +21,27 @@ import com.example.sistemafinanceiro.api.model.Transacao;
 import com.example.sistemafinanceiro.api.repository.TransacaoRepository;
 
 @RestController
-@RequestMapping("/transacaos")
+@RequestMapping("/transacoes")
 public class TransacaoController {
-	
-	@Autowired
-	private TransacaoRepository transacaoRepository;
-	
-	@GetMapping
-	@ResponseStatus(HttpStatus.OK)
-	public List<Transacao> listar(){
-		return transacaoRepository.findAll();
+
+	private final TransacaoRepository transacaoRepository;
+
+	public TransacaoController(TransacaoRepository transacaoRepository) {
+		this.transacaoRepository = transacaoRepository;
 	}
-	
+
+	@GetMapping
+	public ResponseEntity<List<Transacao>> listar() {
+		List<Transacao> transacoes = transacaoRepository.findAll();
+		return ResponseEntity.ok(transacoes);
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Transacao> buscar(@PathVariable Long id) {
-		Optional<Transacao> c = transacaoRepository.findById(id);
-		if (c.isPresent())
-			return ResponseEntity.ok(c.get());
-
-		return ResponseEntity.notFound().build();
+		Optional<Transacao> optionalTransacao = transacaoRepository.findById(id);
+		return optionalTransacao.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 	}
-	
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Transacao salvar(@RequestBody Transacao transacao) {
@@ -50,29 +49,27 @@ public class TransacaoController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Transacao> remover(@PathVariable Long id) {
-		try {
-			Optional<Transacao> c = transacaoRepository.findById(id);
-			if (c.isPresent()) {
-				transacaoRepository.deleteById(id);
-				return ResponseEntity.noContent().build();
-			}
-			
-			return ResponseEntity.notFound().build();
-		} catch (DataIntegrityViolationException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+	public ResponseEntity<Void> remover(@PathVariable Long id) {
+		Optional<Transacao> optionalTransacao = transacaoRepository.findById(id);
+		if (optionalTransacao.isPresent()) {
+			transacaoRepository.deleteById(id);
+			return ResponseEntity.noContent().build();
 		}
-	}
-	
-	@PutMapping("/{id}")
-	public ResponseEntity<Transacao> atualizar(@PathVariable Long id, @RequestBody Transacao transacao) {
-		Optional<Transacao> transacaoAtual = transacaoRepository.findById(id);
-		if (transacaoAtual.isPresent()) {
-			BeanUtils.copyProperties(transacao, transacaoAtual.get(), "id");
-			Transacao transacaoA = transacaoRepository.save(transacaoAtual.get());
-			return ResponseEntity.ok(transacaoA);
-		}
-		
 		return ResponseEntity.notFound().build();
 	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<Transacao> atualizar(@PathVariable Long id, @RequestBody Transacao transacao) {
+		Optional<Transacao> optionalTransacao = transacaoRepository.findById(id);
+		if (optionalTransacao.isPresent()) {
+			Transacao transacaoAtual = optionalTransacao.get();
+			BeanUtils.copyProperties(transacao, transacaoAtual, "id");
+			Transacao transacaoAtualizada = transacaoRepository.save(transacaoAtual);
+			return ResponseEntity.ok(transacaoAtualizada);
+		}
+		return ResponseEntity.notFound().build();
+	}
+
+
+
 }
