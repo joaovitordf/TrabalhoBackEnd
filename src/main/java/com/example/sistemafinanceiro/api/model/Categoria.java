@@ -26,4 +26,7 @@ public class Categoria {
 
 	@OneToMany 
     private List<MetaCategoria> metaCategorias = new ArrayList<>();
+	
+	@OneToMany
+	private List<Fatura> faturas = new ArrayList<>();
 }
