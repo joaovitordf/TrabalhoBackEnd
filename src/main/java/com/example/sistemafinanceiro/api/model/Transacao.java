@@ -1,48 +1,45 @@
 package com.example.sistemafinanceiro.api.model;
-
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import lombok.Data;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.springframework.format.annotation.DateTimeFormat;
-
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity
+@Entity(name = "transacao")
 public class Transacao {
-	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
+	@Column(nullable = false)
 	private double valor;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(nullable = false)
+	@CreationTimestamp
+	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDate data;
-	
+
+	@Column(nullable = false)
 	private int parcela;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(nullable = false)
+	@CreationTimestamp
+	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDate data_pagamento;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@CreationTimestamp
+	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDate data_vencimento;
 	
 	@ManyToOne
-    @JoinColumn(name = "fatura_id")
+    @JoinColumn
 	private Fatura fatura;
+
+	@PrePersist
+	private void definir_datas() {
+		LocalDateTime currentDate = LocalDateTime.now();
+		data_pagamento = LocalDate.from((currentDate.plusDays(30)));
+		data_vencimento = LocalDate.from((currentDate.plusDays(60)));
+	}
 }

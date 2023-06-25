@@ -1,27 +1,23 @@
 package com.example.sistemafinanceiro.api.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity(name = "meta_categoria")
 public class MetaCategoria {
 
-	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@ManyToOne
-    @JoinColumn(name = "categoria_id")
+    @JoinColumn
 	private Categoria categoria;
 
 	private double limite;

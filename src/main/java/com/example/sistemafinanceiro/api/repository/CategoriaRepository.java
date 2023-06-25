@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.example.sistemafinanceiro.api.model.Categoria;
 
 @Repository
-public interface CategoriaRepository extends
-JpaRepository<Categoria, Long>{
-	
-	
+public interface CategoriaRepository extends JpaRepository<Categoria, Long>{
+
 }
