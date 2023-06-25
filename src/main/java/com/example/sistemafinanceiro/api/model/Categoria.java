@@ -2,31 +2,25 @@ package com.example.sistemafinanceiro.api.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 public class Categoria {
 
-	@EqualsAndHashCode.Include
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private String nome;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@OneToMany 
+    @Column(length = 100, nullable = false) // length: define o tamanho máximo que a coluna poderá ter, nullable: informa que o campo não pode ser nulo
+    private String nome;
+
+    // CascadeType.ALL: é usado para propagar todas as operações da entidade Categoria, orphanRemoval: especifica se a remoção órfã deve ser aplicada
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MetaCategoria> metaCategorias = new ArrayList<>();
-	
-	@OneToMany
-	private List<Fatura> faturas = new ArrayList<>();
+
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Fatura> faturas = new ArrayList<>();
 }
