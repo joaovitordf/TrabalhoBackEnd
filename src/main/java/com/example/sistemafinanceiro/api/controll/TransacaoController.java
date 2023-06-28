@@ -1,10 +1,11 @@
 package com.example.sistemafinanceiro.api.controll;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -70,6 +72,12 @@ public class TransacaoController {
 		return ResponseEntity.notFound().build();
 	}
 
-
-
+	@GetMapping("/proximasfaturas")
+	public List<Transacao> buscarProximaFatura(
+            @RequestParam("dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial) {
+        
+        LocalDate dataFinal = dataInicial.plusDays(90);
+        
+        return transacaoRepository.findBydataBetween(dataInicial, dataFinal);
+    }
 }
