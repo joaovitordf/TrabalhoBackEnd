@@ -75,9 +75,18 @@ public class TransacaoController {
 	@GetMapping("/proximasfaturas")
 	public List<Transacao> buscarProximaFatura(
             @RequestParam("dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial) {
-        
+
         LocalDate dataFinal = dataInicial.plusDays(90);
-        
+
         return transacaoRepository.findBydataBetween(dataInicial, dataFinal);
     }
+
+	@GetMapping("/faturasvencidas")
+	public List<Transacao> buscarFaturaVencida(
+			@RequestParam("dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFinal) {
+		LocalDate dataInicial = dataFinal.minusDays(90);
+
+		return transacaoRepository.findBydataBetween(dataInicial, dataFinal);
+	}
+
 }
