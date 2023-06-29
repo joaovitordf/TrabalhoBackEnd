@@ -89,4 +89,27 @@ public class TransacaoController {
 		return transacaoRepository.findBydataBetween(dataInicial, dataFinal);
 	}
 
+	@GetMapping("/faturaspendentes")
+	public List<Transacao> buscarFaturasPendentes(
+			@RequestParam("dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFinal) {
+		LocalDate dataInicial = LocalDate.now();
+
+		return transacaoRepository.findBydatapagamentoBetween(dataInicial, dataFinal);
+	}
+
+	@GetMapping("/pagamentosefetuados")
+	public List<Transacao> buscarPagamentosEfetuados(
+			@RequestParam("dataInicial") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataInicial) {
+		LocalDate dataFinal = LocalDate.now();
+
+		return transacaoRepository.findBydatapagamentoBetween(dataInicial, dataFinal);
+	}
+
+	@GetMapping("/datasvencimento")
+	public List<Transacao> buscarDatasVencimento(
+			@RequestParam("dataFinal") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dataFinal) {
+		LocalDate dataInicial = LocalDate.now();
+
+		return transacaoRepository.findBydatavencimentoBetween(dataInicial, dataFinal);
+	}
 }

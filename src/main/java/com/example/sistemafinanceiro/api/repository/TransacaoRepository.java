@@ -12,4 +12,10 @@ import com.example.sistemafinanceiro.api.model.Transacao;
 public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
     List<Transacao> findBydataBetween (
 			LocalDate dataInicial, LocalDate dataFinal);
+
+    List<Transacao> findBydatapagamentoBetween (
+			LocalDate dataInicial, LocalDate dataFinal);
+
+    List<Transacao> findBydatavencimentoBetween (
+			LocalDate dataInicial, LocalDate dataFinal);
 }

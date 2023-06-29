@@ -26,11 +26,11 @@ public class Transacao {
 
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
-	private LocalDate data_pagamento;
+	private LocalDate datapagamento;
 
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
-	private LocalDate data_vencimento;
+	private LocalDate datavencimento;
 	
 	@ManyToOne
     @JoinColumn
@@ -39,7 +39,7 @@ public class Transacao {
 	@PrePersist
 	private void definir_datas() {
 		LocalDateTime currentDate = LocalDateTime.now();
-		data_pagamento = LocalDate.from((currentDate.plusDays(30)));
-		data_vencimento = LocalDate.from((currentDate.plusDays(60)));
+		datapagamento = LocalDate.from((currentDate.plusDays(30)));
+		datavencimento = LocalDate.from((currentDate.plusDays(60)));
 	}
 }
