@@ -24,55 +24,55 @@ import com.example.sistemafinanceiro.api.repository.CategoriaRepository;
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {
-	
-	@Autowired
-	private CategoriaRepository categoriaRepository;
-	
-	@GetMapping
-	@ResponseStatus(HttpStatus.OK)
-	public List<Categoria> listar(){
-		return categoriaRepository.findAll();
-	}
-	
-	@GetMapping("/{id}")
-	public ResponseEntity<Categoria> buscar(@PathVariable Long id) {
-		Optional<Categoria> c = categoriaRepository.findById(id);
-		if (c.isPresent())
-			return ResponseEntity.ok(c.get());
 
-		return ResponseEntity.notFound().build();
-	}
-	
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public Categoria salvar(@RequestBody Categoria categoria) {
-		return categoriaRepository.save(categoria);
-	}
+    @Autowired
+    private CategoriaRepository categoriaRepository;
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Categoria> remover(@PathVariable Long id) {
-		try {
-			Optional<Categoria> c = categoriaRepository.findById(id);
-			if (c.isPresent()) {
-				categoriaRepository.deleteById(id);
-				return ResponseEntity.noContent().build();
-			}
-			
-			return ResponseEntity.notFound().build();
-		} catch (DataIntegrityViolationException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		}
-	}
-	
-	@PutMapping("/{id}")
-	public ResponseEntity<Categoria> atualizar(@PathVariable Long id, @RequestBody Categoria categoria) {
-		Optional<Categoria> categoriaAtual = categoriaRepository.findById(id);
-		if (categoriaAtual.isPresent()) {
-			BeanUtils.copyProperties(categoria, categoriaAtual.get(), "id");
-			Categoria categoriaA = categoriaRepository.save(categoriaAtual.get());
-			return ResponseEntity.ok(categoriaA);
-		}
-		
-		return ResponseEntity.notFound().build();
-	}
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<Categoria> listar() {
+        return categoriaRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Categoria> buscar(@PathVariable Long id) {
+        Optional<Categoria> c = categoriaRepository.findById(id);
+        if (c.isPresent())
+            return ResponseEntity.ok(c.get());
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Categoria salvar(@RequestBody Categoria categoria) {
+        return categoriaRepository.save(categoria);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Categoria> remover(@PathVariable Long id) {
+        try {
+            Optional<Categoria> c = categoriaRepository.findById(id);
+            if (c.isPresent()) {
+                categoriaRepository.deleteById(id);
+                return ResponseEntity.noContent().build();
+            }
+
+            return ResponseEntity.notFound().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Categoria> atualizar(@PathVariable Long id, @RequestBody Categoria categoria) {
+        Optional<Categoria> categoriaAtual = categoriaRepository.findById(id);
+        if (categoriaAtual.isPresent()) {
+            BeanUtils.copyProperties(categoria, categoriaAtual.get(), "id");
+            Categoria categoriaA = categoriaRepository.save(categoriaAtual.get());
+            return ResponseEntity.ok(categoriaA);
+        }
+
+        return ResponseEntity.notFound().build();
+    }
 }

@@ -4,7 +4,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.sistemafinanceiro.api.model.Categoria;
+import com.example.sistemafinanceiro.api.model.Fatura;
+import com.example.sistemafinanceiro.api.model.MetaCategoria;
+import com.example.sistemafinanceiro.api.repository.CategoriaRepository;
+import com.example.sistemafinanceiro.api.repository.FaturaRepository;
+import com.example.sistemafinanceiro.api.repository.MetaCategoriaRepository;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +33,15 @@ import com.example.sistemafinanceiro.api.repository.TransacaoRepository;
 @RequestMapping("/transacoes")
 public class TransacaoController {
 
+	@Autowired
+	private MetaCategoriaRepository metaCategoriaRepository;
+
+	@Autowired
+	private FaturaRepository faturaRepository;
 	private final TransacaoRepository transacaoRepository;
+
+	@Autowired
+	private CategoriaRepository categoriaRepository;
 
 	public TransacaoController(TransacaoRepository transacaoRepository) {
 		this.transacaoRepository = transacaoRepository;
@@ -112,4 +127,32 @@ public class TransacaoController {
 
 		return transacaoRepository.findBydatavencimentoBetween(dataInicial, dataFinal);
 	}
+
+	@GetMapping("/limiteVerificar/{categoriaId}")
+	public ResponseEntity<String> obterValorTotalPorCategoria(@PathVariable Long categoriaId) {
+		Optional<Categoria> categoriaOptional = categoriaRepository.findById(categoriaId);
+		if (categoriaOptional.isPresent()) {
+			Categoria categoria = categoriaOptional.get();
+			MetaCategoria metaCategoria = metaCategoriaRepository.findByCategoria(categoria);
+			if (metaCategoria != null) {
+				List<Fatura> faturas = faturaRepository.findByCategoria(categoria);
+				double valorTotal = faturas.stream()
+						.mapToDouble(Fatura::getValor_total)
+						.sum();
+				if (valorTotal > metaCategoria.getLimite()) {
+					// O valor total das faturas excede o limite da MetaCategoria
+					return ResponseEntity.ok("Atenção seu limite foi excedido! R$" + valorTotal);
+				} else {
+					// O valor total das faturas está dentro do limite da MetaCategoria
+					return ResponseEntity.ok("Seus gastos estão dentro do limite. PARABÉNS!");
+				}
+			} else {
+				// Não há MetaCategoria correspondente à categoria
+				return ResponseEntity.notFound().build();
+			}
+		}
+
+		return ResponseEntity.notFound().build();
+	}
+
 }
