@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "c7aa2f96-2234-458c-abae-549db8fa0c4f",
+		"_postman_id": "07125a03-24a4-45f1-aac1-22e84df82914",
 		"name": "SistemaFinanceiro",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27127521"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -445,6 +444,189 @@
 					"path": [
 						"transacoes",
 						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transacao - limiteVerificar",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				},
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"dataInicial\": \"99999\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/transacoes/limiteVerificar/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transacoes",
+						"limiteVerificar",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transacao - faturaspendentes",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {},
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"dataInicial\": \"99999\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/transacoes/faturaspendentes?dataFinal=2023-11-08",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transacoes",
+						"faturaspendentes"
+					],
+					"query": [
+						{
+							"key": "dataFinal",
+							"value": "2023-11-08"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transacao - faturasvencidas",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {},
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"dataInicial\": \"99999\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/transacoes/faturasvencidas?dataFinal=2023-10-10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transacoes",
+						"faturasvencidas"
+					],
+					"query": [
+						{
+							"key": "dataFinal",
+							"value": "2023-10-10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transacao - proximasfaturas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/transacoes/proximasfaturas?dataInicial=2023-04-08",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transacoes",
+						"proximasfaturas"
+					],
+					"query": [
+						{
+							"key": "dataInicial",
+							"value": "2023-04-08"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transacao - datasvencimento",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/transacoes/datasvencimento?dataFinal=2023-11-08",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transacoes",
+						"datasvencimento"
+					],
+					"query": [
+						{
+							"key": "dataFinal",
+							"value": "2023-11-08"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transacao - pagamentosefetuados",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/transacoes/pagamentosefetuados?dataInicial=2023-11-08",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transacoes",
+						"pagamentosefetuados"
+					],
+					"query": [
+						{
+							"key": "dataInicial",
+							"value": "2023-11-08"
+						}
 					]
 				}
 			},
