@@ -612,7 +612,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/transacoes/pagamentosefetuados?dataInicial=2023-11-08",
+					"raw": "http://localhost:8080/transacoes/pagamentosefetuados?dataInicial=2022-08-22",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -625,7 +625,7 @@
 					"query": [
 						{
 							"key": "dataInicial",
-							"value": "2023-11-08"
+							"value": "2022-08-22"
 						}
 					]
 				}
